@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import com.codewith.firstApp.model.User;
 import com.codewith.firstApp.service.Userservice;
 
+@CrossOrigin(origins = {
+	    "http://localhost:5173",
+	    "https://mugilarasi15.github.io"
+	})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
