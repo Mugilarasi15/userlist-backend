@@ -2,55 +2,40 @@ package com.codewith.firstApp.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.codewith.firstApp.model.User;
-import com.codewith.firstApp.service.UserService;
+import com.codewith.firstApp.service.Userservice;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final Userservice userservice;
 
-    // CREATE
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserController(Userservice userservice) {
+        this.userservice = userservice;
     }
 
-    // READ ALL
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    public List<User> getAllUsers() {
+        return userservice.getAllUsers();
     }
 
-    // READ BY ID
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUserById(id).orElse(null);
+    @PostMapping
+    public User addUser(@RequestBody User user) {
+        return userservice.addUser(user);
     }
 
-    // UPDATE
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user) {
+        return userservice.updateUser(id, user);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return "User deleted successfully";
+    public void deleteUser(@PathVariable Long id) {
+        userservice.deleteUser(id);
     }
 }
-
